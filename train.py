@@ -93,44 +93,44 @@ def main():
         test_losses = 0.0
         test_successes = 0.0
 
-    for inputs, labels in train_load:
-        inputs = inputs.to(device)
-        labels = labels.to(device)
-        outputs = classifier(inputs)
-        loss = lossFn(outputs, labels)
+        for inputs, labels in train_load:
+            inputs = inputs.to(device)
+            labels = labels.to(device)
+            outputs = classifier(inputs)
+            loss = lossFn(outputs, labels)
 
-        optimiser.zero_grad()
-        loss.backward()
-        optimiser.step()
+            optimiser.zero_grad()
+            loss.backward()
+            optimiser.step()
 
-        _, preds = torch.max(outputs, 1)
-        losses += loss.item()
-        successes += torch.sum(preds == labels.data)
+            _, preds = torch.max(outputs, 1)
+            losses += loss.item()
+            successes += torch.sum(preds == labels.data)
 
-    with torch.no_grad():
-        for test_inputs, test_labels in test_load:
-            test_inputs = test_inputs.to(device)
-            test_labels = test_labels.to(device)
-            test_outputs = classifier(test_inputs)
-            test_loss = lossFn(test_outputs, test_labels)
+        with torch.no_grad():
+            for test_inputs, test_labels in test_load:
+                test_inputs = test_inputs.to(device)
+                test_labels = test_labels.to(device)
+                test_outputs = classifier(test_inputs)
+                test_loss = lossFn(test_outputs, test_labels)
 
-        _, test_preds = torch.max(test_outputs, 1)
-        test_losses += loss.item()
-        test_successes += torch.sum(test_preds == test_labels.data)
+                _, test_preds = torch.max(test_outputs, 1)
+                test_losses += loss.item()
+                test_successes += torch.sum(test_preds == test_labels.data)
 
-    epoch_loss = losses / (len(train_load)*batch_size)
-    epoch_success = successes.float() / (len(train_load)*batch_size)
-    total_losses.append(epoch_loss)
-    total_successes.append(epoch_success.cpu().numpy())
+        epoch_loss = losses / (len(train_load)*batch_size)
+        epoch_success = successes.float() / (len(train_load)*batch_size)
+        total_losses.append(epoch_loss)
+        total_successes.append(epoch_success.cpu().numpy())
 
-    test_epoch_loss = test_losses / (len(test_load)*batch_size)
-    test_epoch_success = test_successes.float() / (len(test_load)*batch_size)
-    test_total_losses.append(test_epoch_loss)
-    test_total_successes.append(test_epoch_success.cpu().numpy())
+        test_epoch_loss = test_losses / (len(test_load)*batch_size)
+        test_epoch_success = test_successes.float() / (len(test_load)*batch_size)
+        test_total_losses.append(test_epoch_loss)
+        test_total_successes.append(test_epoch_success.cpu().numpy())
 
-    print('epoch:', (i+1))
-    print('training loss: {:.4f}, acc {:.4f} '.format(epoch_loss, epoch_success.cpu().item()))
-    print('test loss: {:.4f}, acc {:.4f} '.format(test_epoch_loss, test_epoch_success.cpu().item()))
+        print('epoch:', (i+1))
+        print('training loss: {:.4f}, acc {:.4f} '.format(epoch_loss, epoch_success.cpu().item()))
+        print('test loss: {:.4f}, acc {:.4f} '.format(test_epoch_loss, test_epoch_success.cpu().item()))
 
     ###Cumulative Training Results###
     plt.style.use('ggplot')
