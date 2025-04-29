@@ -11,7 +11,7 @@ import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 
-#def main() established to safely import packages
+#main() established to safely import packages
 def main():
     ###Load Model###
     PATH = './cifar_net.pth'
