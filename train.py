@@ -52,7 +52,7 @@ def main():
     classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship','truck')
 
     ###Check Data Integrity###
-    def imshow(image):
+    def imshow(image): #Modify imshow for CIFAR10
         image = image / 2 + 0.5
         npImage = image.numpy()
         plt.imshow(np.transpose(npImage, (1, 2, 0)))
