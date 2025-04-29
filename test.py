@@ -1,1 +1,1 @@
-from train import My_NN
+from train import cifar_classifier
