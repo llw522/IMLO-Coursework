@@ -11,7 +11,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 ###Convolutional Network###
-class cifar_classifier(nn.Module):
+class cifar_classifier(nn.Module):      #Established outside of main() so that test.py can import class structure
     def __init__(self):
         super().__init__()
         self.convert1 = nn.Conv2d(3, 16, 3, 1, padding=1)
